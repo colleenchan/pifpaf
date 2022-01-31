@@ -1,0 +1,11 @@
+Package: pifpaf
+Type: Package
+Title: Estimates the potential impact fraction and the population attributable fraction
+Version: 0.1.0
+Author: Colleen Chan
+Maintainer: Colleen Chan <colleen.chan@yale.edu>
+Description: Estimates the potential impact fraction and the population attributable fraction using individual-level and aggregate data.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
