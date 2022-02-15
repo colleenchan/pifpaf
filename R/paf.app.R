@@ -12,6 +12,7 @@
 #'
 #' @return list of PAF estimate and corresponding confidence interval
 #' @export
+#' @import stats
 #'
 #' @examples
 #' x <- rweibull(100, 1.2, 1.66)
