@@ -89,12 +89,14 @@ pif.ind <- function(x,
     v.mu <- (mean( exp(beta * x)^2 ) - (mean(exp(beta * x)))^2)/n +
       varbeta * (mean(x * exp(beta * x)))^2
     v <- v.mu / (mean(exp(beta * x)))^4
+    p <- ggplot(data.frame(x), aes(x = x)) + geom_histogram() + theme_bw()
 
   } else{
     pif <- 1 - 1/mean(exp(beta * gx))
     v.mu <- (mean( exp(beta * gx)^2 ) - (mean(exp(beta * gx)))^2)/n +
       varbeta * (mean(x * exp(beta * x)))^2
     v <- v.mu / (mean(exp(beta * x)))^4
+    p <- ggplot(data.frame(x, gx), aes(x = x)) + geom_histogram() + theme_bw()
   }
   ci <- c(pif - qnorm(1 - alpha / 2) * sqrt(v),
           pif + qnorm(1 - alpha / 2) * sqrt(v))
