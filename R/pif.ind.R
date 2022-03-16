@@ -54,25 +54,24 @@ pif.ind <- function(x,
         stop("b must be greater than 0 and less 1.")
       }
       message(paste0(
-        "Computing PIF and ", 100 * (1 - alpha),
-        "% confidence interval with counterfactual exposure g(x) = ",
-                     a, "+", b, "x"))
+        "Estimating PIF with counterfactual exposure g(x) = ", a, " + ", b, "x",
+        " and ", 100 * (1 - alpha), "% confidence interval")
+        )
     } else if (a != 0){ # a is specified
       if (a >= 0){
         stop("a must be a negative value or specificy b value.")
       }
       message(paste0(
-        "Computing PIF and ", 100 * (1 - alpha),
-                     "% confidence interval counterfactual exposure g(x) = x",
-        a))
+        "Estimating PIF with counterfactual exposure g(x) = x - ", abs(a),
+        " and ", 100 * (1 - alpha), "% confidence interval")
+      )
     } else{ # only b is specified
       if (b >= 1 | b <= 0){
         stop("b must be between 0 and 1 or specify a nonzero intercept.")
       }
       message(paste0(
-        "Computing PIF and ", 100 * (1 - alpha),
-                     "% confidence interval counterfactual exposure g(x) = ",
-        b, "x"))
+        "Estimating PIF with counterfactual exposure g(x) = ", b, "x",
+        " and ", 100 * (1 - alpha), "% confidence interval"))
     }
   }
 
@@ -80,23 +79,22 @@ pif.ind <- function(x,
   gx[gx < 0] <- 0
   if (sum(gx) == 0){
     warning("The counterfactual exposure contains all 0 values.
-            The PAF will be computed.")
+            The PAF will be estimated.")
     estpaf <- 1
   }
 
   if (estpaf){
+    message(paste0("Estimating PAF and ", 100 * (1 - alpha),
+    "% confidence interval"))
     pif <- 1 - 1/mean(exp(beta * x))
     v.mu <- (mean( exp(beta * x)^2 ) - (mean(exp(beta * x)))^2)/n +
       varbeta * (mean(x * exp(beta * x)))^2
     v <- v.mu / (mean(exp(beta * x)))^4
-    p <- ggplot(data.frame(x), aes(x = x)) + geom_histogram() + theme_bw()
-
   } else{
     pif <- 1 - 1/mean(exp(beta * gx))
     v.mu <- (mean( exp(beta * gx)^2 ) - (mean(exp(beta * gx)))^2)/n +
       varbeta * (mean(x * exp(beta * x)))^2
     v <- v.mu / (mean(exp(beta * x)))^4
-    p <- ggplot(data.frame(x, gx), aes(x = x)) + geom_histogram() + theme_bw()
   }
   ci <- c(pif - qnorm(1 - alpha / 2) * sqrt(v),
           pif + qnorm(1 - alpha / 2) * sqrt(v))

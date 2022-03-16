@@ -34,7 +34,7 @@ x <- rweibull(1000, 1.2, 1.66)
 
 # Estimate PAF
 pif.ind(x, beta = log(1.27), varbeta = 0.002, estpaf = TRUE) 
-#> Computing PAF and 95% confidence interval
+#> Estimating PAF and 95% confidence interval
 #> $pif
 #> [1] 0.3447482
 #> 
@@ -48,7 +48,7 @@ For the PIF, we allow counterfactual exposures of the form
 ``` r
 # Estimate PIF for a counterfactual exposure of a 1 unit decrease
 pif.ind(x, beta = log(1.27), varbeta = 0.002, a = -1)
-#> Computing PIF and 95% confidence interval counterfactual exposure g(x) = x-1
+#> Estimating PIF with counterfactual exposure g(x) = x - 1 and 95% confidence interval
 #> $pif
 #> [1] 0.198881
 #> 
@@ -57,7 +57,7 @@ pif.ind(x, beta = log(1.27), varbeta = 0.002, a = -1)
 
 # Estimate PIF for a counterfactual exposure of 50% decrease
 pif.ind(x, beta = log(1.27), varbeta = 0.002, b = 0.5)
-#> Computing PIF and 95% confidence interval counterfactual exposure g(x) = 0.5x
+#> Estimating PIF with counterfactual exposure g(x) = 0.5x and 95% confidence interval
 #> $pif
 #> [1] 0.1789588
 #> 
