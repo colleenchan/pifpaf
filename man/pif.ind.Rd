@@ -4,7 +4,7 @@
 \alias{pif.ind}
 \title{PIF estimation with individual-level data}
 \usage{
-pif.ind(x, beta, varbeta, estpaf = FALSE, a = 0, b = 1, alpha = 0.05)
+pif.ind(x, beta, varbeta, a = 0, b = 1, alpha = 0.05)
 }
 \arguments{
 \item{x}{vector of exposure values}
@@ -12,8 +12,6 @@ pif.ind(x, beta, varbeta, estpaf = FALSE, a = 0, b = 1, alpha = 0.05)
 \item{beta}{beta coefficient in relative risk}
 
 \item{varbeta}{variance of beta coefficient in relative risk}
-
-\item{estpaf}{boolean on whether to compute PIF}
 
 \item{a}{the intercept (single value) for counterfactual exposure.
 Must be negative.}
@@ -27,8 +25,9 @@ Must be between 0 and 1.}
 list of PIF estimate and corresponding confidence interval
 }
 \description{
-Estimates the potential impact fraction and population
-aggregate fraction with individual-level exposure data
+Estimates the potential impact fraction ((PIF) and population
+aggregate fraction (PAF) with individual-level exposure data. By default,
+the PAF is estimated if no counterfactual exposures values are specified.
 }
 \examples{
 # Generate exposure data
@@ -36,7 +35,7 @@ set.seed(1)
 x <- rweibull(100, 1.2, 1.66)
 
 # Estimate PAF
-pif.ind(x, log(1.27), 0.002, estpaf = TRUE)
+pif.ind(x, log(1.27), 0.002)
 
 # Estimate PIF for a counterfactual exposure of a 1 unit decrease
 pif.ind(x, log(1.27), 0.002, a = -1)

@@ -1,12 +1,13 @@
 
 #' @title PIF estimation with individual-level data
-#' @description Estimates the potential impact fraction and population
-#' aggregate fraction with individual-level exposure data
+#' @description Estimates the potential impact fraction ((PIF) and population
+#' aggregate fraction (PAF) with individual-level exposure data. By default,
+#' the PAF is estimated if no counterfactual exposures values are specified.
+#'
 #'
 #' @param x vector of exposure values
 #' @param beta beta coefficient in relative risk
 #' @param varbeta variance of beta coefficient in relative risk
-#' @param estpaf boolean on whether to compute PIF
 #' @param a the intercept (single value) for counterfactual exposure.
 #' Must be negative.
 #' @param b the slope (single value) for the counterfactual exposure.
@@ -23,7 +24,7 @@
 #' x <- rweibull(100, 1.2, 1.66)
 #'
 #' # Estimate PAF
-#' pif.ind(x, log(1.27), 0.002, estpaf = TRUE)
+#' pif.ind(x, log(1.27), 0.002)
 #'
 #' # Estimate PIF for a counterfactual exposure of a 1 unit decrease
 #' pif.ind(x, log(1.27), 0.002, a = -1)
@@ -33,46 +34,39 @@
 pif.ind <- function(x,
                     beta,
                     varbeta,
-                    estpaf = FALSE,
                     a = 0,
                     b = 1,
                     alpha = 0.05){
   n <- length(x)
 
-  # argument checks
-  if (a == 0 & b == 1 & !estpaf){
-     stop("Must specify estpaf = TRUE or supply value(s) to a and/or b to
-          compute PIF.")
-  }
-  if ((a != 0 | b != 1) & estpaf){
-     stop("a and/or b value specified but estpaf = TRUE.")
-  }
-
-  if (!estpaf){
-    if (a != 0 & b != 1){ # both a and b are specified
-      if (b >= 1 | b <= 0){
-        stop("b must be greater than 0 and less 1.")
-      }
-      message(paste0(
-        "Estimating PIF with counterfactual exposure g(x) = ", a, " + ", b, "x",
-        " and ", 100 * (1 - alpha), "% confidence interval")
-        )
-    } else if (a != 0){ # a is specified
-      if (a >= 0){
-        stop("a must be a negative value or specificy b value.")
-      }
-      message(paste0(
-        "Estimating PIF with counterfactual exposure g(x) = x - ", abs(a),
-        " and ", 100 * (1 - alpha), "% confidence interval")
-      )
-    } else{ # only b is specified
-      if (b >= 1 | b <= 0){
-        stop("b must be between 0 and 1 or specify a nonzero intercept.")
-      }
-      message(paste0(
-        "Estimating PIF with counterfactual exposure g(x) = ", b, "x",
-        " and ", 100 * (1 - alpha), "% confidence interval"))
+  if (a != 0 & b != 1){ # both a and b are specified
+    if (b >= 1 | b <= 0){
+      stop("b must be greater than 0 and less 1.")
     }
+    message(paste0(
+      "Estimating PIF with counterfactual exposure g(x) = ", a, " + ", b, "x",
+      " and ", 100 * (1 - alpha), "% confidence interval")
+    )
+    estpaf <- 0
+  } else if (a != 0){ # a is specified
+    if (a >= 0){
+      stop("a must be a negative value or specificy b value.")
+    }
+    message(paste0(
+      "Estimating PIF with counterfactual exposure g(x) = x - ", abs(a),
+      " and ", 100 * (1 - alpha), "% confidence interval")
+    )
+    estpaf <- 0
+  } else if (b != 1){ # only b is specified
+    if (b >= 1 | b <= 0){
+      stop("b must be between 0 and 1 or specify a nonzero intercept.")
+    }
+    message(paste0(
+      "Estimating PIF with counterfactual exposure g(x) = ", b, "x",
+      " and ", 100 * (1 - alpha), "% confidence interval"))
+    estpaf <- 0
+  } else{
+    estpaf <- 1
   }
 
   gx <- a + b * x
