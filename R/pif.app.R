@@ -26,13 +26,16 @@
 #' x <- rweibull(100, 1.2, 1.66)
 #'
 #' # Estimate PAF
-#' pif.app(mean(x), var(x), length(x), log(1.27), 0.002)
+#' pif.app(meanx = 1.41, varx = 1.18, n = 100, beta = log(1.27),
+#' varbeta = 0.002)
 #'
 #' # Estimate PIF for a counterfactual exposure of a 1 unit decrease
-#' pif.app(mean(x), var(x), length(x), log(1.27), 0.002, a = -1)
+#' pif.app(meanx = 1.41, varx = 1.18, n = 100, beta = log(1.27),
+#' varbeta = 0.002, a = -1)
 #'
 #' # Estimate PIF for a counterfactual exposure of 50% decrease
-#' pif.app(mean(x), var(x), length(x), log(1.27), 0.002, b = 0.5)
+#' pif.app(meanx = 1.41, varx = 1.18, n = 100, beta = log(1.27),
+#' varbeta = 0.002, b = 0.5)
 pif.app <- function(meanx,
                     varx,
                     n,
@@ -53,7 +56,7 @@ pif.app <- function(meanx,
     estpaf <- 0
   } else if (a != 0){ # a is specified
     if (a >= 0){
-      stop("a must be a negative value or specificy b value.")
+      stop("a must be a negative value or specify b value.")
     }
     message(paste0(
       "Estimating PIF with counterfactual exposure g(x) = x - ", abs(a),
@@ -81,6 +84,8 @@ pif.app <- function(meanx,
   }
 
   if (estpaf){
+    message(paste0("Estimating PAF and ", 100 * (1 - alpha),
+                   "% confidence interval"))
     pif <- 1 -  1 / (exp(beta * meanx) * (1 + 0.5 * sqrt(varx) * beta^2))
     grad <- c(beta / (exp(beta * meanx) * (1 + 0.5 * beta^2 * sqrt(varx))),
               beta^2 * exp(beta * meanx) * (1 + 0.5 * beta^2 * sqrt(varx))^2 /

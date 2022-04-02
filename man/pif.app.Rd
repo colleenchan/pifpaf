@@ -40,11 +40,14 @@ set.seed(1)
 x <- rweibull(100, 1.2, 1.66)
 
 # Estimate PAF
-pif.app(mean(x), var(x), length(x), log(1.27), 0.002)
+pif.app(meanx = 1.41, varx = 1.18, n = 100, beta = log(1.27),
+varbeta = 0.002)
 
 # Estimate PIF for a counterfactual exposure of a 1 unit decrease
-pif.app(mean(x), var(x), length(x), log(1.27), 0.002, a = -1)
+pif.app(meanx = 1.41, varx = 1.18, n = 100, beta = log(1.27),
+varbeta = 0.002, a = -1)
 
 # Estimate PIF for a counterfactual exposure of 50\% decrease
-pif.app(mean(x), var(x), length(x), log(1.27), 0.002, b = 0.5)
+pif.app(meanx = 1.41, varx = 1.18, n = 100, beta = log(1.27),
+varbeta = 0.002, b = 0.5)
 }

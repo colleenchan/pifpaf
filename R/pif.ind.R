@@ -35,7 +35,7 @@ pif.ind <- function(x,
                     beta,
                     varbeta,
                     a = 0,
-                    b = 1,
+                    b = 0,
                     alpha = 0.05){
   n <- length(x)
 
