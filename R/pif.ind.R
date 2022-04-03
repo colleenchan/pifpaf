@@ -97,5 +97,7 @@ pif.ind <- function(x,
   }
   ci <- c(pif - qnorm(1 - alpha / 2) * sqrt(v),
           pif + qnorm(1 - alpha / 2) * sqrt(v))
+
+
   return(list(pif = pif, ci = ci))
 }

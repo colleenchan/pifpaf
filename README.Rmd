@@ -43,7 +43,7 @@ set.seed(1)
 x <- rweibull(1000, 1.2, 1.66) 
 
 # Estimate PAF
-pif.ind(x, beta = log(1.27), varbeta = 0.002, estpaf = TRUE) 
+pif.ind(x, beta = log(1.27), varbeta = 0.002)
 ```
 
 
@@ -65,7 +65,7 @@ only the mean and variance are reported. We can approximate the PAF using only
 the first two moments. 
 
 ``` r
-paf.app(mean(x), var(x), length(x), log(1.27), 0.002)
+paf.app(meanx = 1.55, varx = 1.6, n = 1000, beta = log(1.27), varbeta = 0.002)
 
 ```
 

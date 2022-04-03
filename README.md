@@ -23,8 +23,9 @@ devtools::install_github("colleenchan/pifpaf")
 
 This is a basic example which shows you how to estimate the PAF when
 individual-level exposure data is available to the user, where the
-relative risk function takes the form RR(*x*) = exp (*x*) = 1.27 with
-variance 0.002.
+relative risk function takes the form
+![\\text{RR}(x) = \\exp(x) = 1.27](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Ctext%7BRR%7D%28x%29%20%3D%20%5Cexp%28x%29%20%3D%201.27 "\text{RR}(x) = \exp(x) = 1.27")
+with variance 0.002.
 
 ``` r
 library(pifpaf)
@@ -33,7 +34,7 @@ set.seed(1)
 x <- rweibull(1000, 1.2, 1.66) 
 
 # Estimate PAF
-pif.ind(x, beta = log(1.27), varbeta = 0.002, estpaf = TRUE) 
+pif.ind(x, beta = log(1.27), varbeta = 0.002)
 #> Estimating PAF and 95% confidence interval
 #> $pif
 #> [1] 0.3447482
@@ -43,7 +44,7 @@ pif.ind(x, beta = log(1.27), varbeta = 0.002, estpaf = TRUE)
 ```
 
 For the PIF, we allow counterfactual exposures of the form
-*g*(*x*) = *a* + *b**x*.
+![g(x) = a + bx](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;g%28x%29%20%3D%20a%20%2B%20bx "g(x) = a + bx").
 
 ``` r
 # Estimate PIF for a counterfactual exposure of a 1 unit decrease
@@ -71,5 +72,5 @@ publications, where only the mean and variance are reported. We can
 approximate the PAF using only the first two moments.
 
 ``` r
-paf.app(mean(x), var(x), length(x), log(1.27), 0.002)
+paf.app(meanx = 1.55, varx = 1.6, n = 1000, beta = log(1.27), varbeta = 0.002)
 ```
