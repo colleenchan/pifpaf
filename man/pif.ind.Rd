@@ -4,7 +4,7 @@
 \alias{pif.ind}
 \title{PIF estimation with individual-level data}
 \usage{
-pif.ind(x, beta, varbeta, a = 0, b = 1, alpha = 0.05)
+pif.ind(x, beta, varbeta, a = 0, b = 0, alpha = 0.05)
 }
 \arguments{
 \item{x}{vector of exposure values}

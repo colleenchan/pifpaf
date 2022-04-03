@@ -39,42 +39,47 @@ pif.ind <- function(x,
                     alpha = 0.05){
   n <- length(x)
 
-  if (a != 0 & b != 1){ # both a and b are specified
-    if (b >= 1 | b <= 0){
+  estpaf <- 0
+  if (a != 0 & b != 0){ # both a and b are specified
+    if (b > 1 | b <= 0){
       stop("b must be greater than 0 and less 1.")
     }
+    if (a >= 0){
+      stop("a must be a negative value or specify b value.")
+    }
+    gx <- a + b * x
     message(paste0(
       "Estimating PIF with counterfactual exposure g(x) = ", a, " + ", b, "x",
       " and ", 100 * (1 - alpha), "% confidence interval")
     )
-    estpaf <- 0
   } else if (a != 0){ # a is specified
     if (a >= 0){
-      stop("a must be a negative value or specificy b value.")
+      stop("a must be a negative value or specify b value.")
     }
+    gx <- a + x
     message(paste0(
       "Estimating PIF with counterfactual exposure g(x) = x - ", abs(a),
       " and ", 100 * (1 - alpha), "% confidence interval")
     )
-    estpaf <- 0
-  } else if (b != 1){ # only b is specified
+  } else if (b != 0){ # only b is specified
     if (b >= 1 | b <= 0){
       stop("b must be between 0 and 1 or specify a nonzero intercept.")
     }
+    gx <- b * x
     message(paste0(
       "Estimating PIF with counterfactual exposure g(x) = ", b, "x",
       " and ", 100 * (1 - alpha), "% confidence interval"))
-    estpaf <- 0
   } else{
     estpaf <- 1
   }
 
-  gx <- a + b * x
-  gx[gx < 0] <- 0
-  if (sum(gx) == 0){
-    warning("The counterfactual exposure contains all 0 values.
+  if (!estpaf){
+    gx[gx < 0] <- 0
+    if (sum(gx) == 0){
+      warning("The counterfactual exposure contains all 0 values.
             The PAF will be estimated.")
-    estpaf <- 1
+      estpaf <- 1
+    }
   }
 
   if (estpaf){

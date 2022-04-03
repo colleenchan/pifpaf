@@ -1,5 +1,5 @@
 
-#' @title PIF approximate estimation
+#' @title PIF approximate estimation with mean and variance
 #' @description Estimates the potential impact fraction (PIF) and population
 #' aggregate fraction (PAF) using only the mean and variance of the exposure
 #' data. By default, the PAF is estimated if no counterfactual exposures values
@@ -21,11 +21,8 @@
 #' @import stats
 #'
 #' @examples
-#' # Generate exposure data
-#' set.seed(1)
-#' x <- rweibull(100, 1.2, 1.66)
 #'
-#' # Estimate PAF
+#' # Estimate PAF for a distribution with mean 1.41 and variance 1.18
 #' pif.app(meanx = 1.41, varx = 1.18, n = 100, beta = log(1.27),
 #' varbeta = 0.002)
 #'
@@ -42,45 +39,50 @@ pif.app <- function(meanx,
                     beta,
                     varbeta,
                     a = 0,
-                    b = 1,
+                    b = 0,
                     alpha = 0.05){
 
-  if (a != 0 & b != 1){ # both a and b are specified
-    if (b >= 1 | b <= 0){
+  estpaf <- 0
+  if (a != 0 & b != 0){ # both a and b are specified
+    if (b > 1 | b <= 0){
       stop("b must be greater than 0 and less 1.")
     }
+    if (a >= 0){
+      stop("a must be a negative value or specify b value.")
+    }
+    gmeanx <- a + b * meanx
     message(paste0(
       "Estimating PIF with counterfactual exposure g(x) = ", a, " + ", b, "x",
       " and ", 100 * (1 - alpha), "% confidence interval")
     )
-    estpaf <- 0
   } else if (a != 0){ # a is specified
     if (a >= 0){
       stop("a must be a negative value or specify b value.")
     }
+    gmeanx <- a + meanx
     message(paste0(
       "Estimating PIF with counterfactual exposure g(x) = x - ", abs(a),
       " and ", 100 * (1 - alpha), "% confidence interval")
     )
-    estpaf <- 0
-  } else if (b != 1){ # only b is specified
+  } else if (b != 0){ # only b is specified
     if (b >= 1 | b <= 0){
       stop("b must be between 0 and 1 or specify a nonzero intercept.")
     }
+    gmeanx <- b * meanx
     message(paste0(
       "Estimating PIF with counterfactual exposure g(x) = ", b, "x",
       " and ", 100 * (1 - alpha), "% confidence interval"))
-    estpaf <- 0
   } else{
     estpaf <- 1
   }
 
-  gmeanx <- a + b * meanx
-  if (gmeanx <= 0){
-    warning("The counterfactual exposure mean is non-positive.
+  if (!estpaf){
+    if (gmeanx <= 0){
+      warning("The counterfactual exposure mean is non-postive.
             The PAF will be estimated.")
-    gmeanx <- 0
-    estpaf <- 1
+      gmeanx <- 0
+      estpaf <- 1
+    }
   }
 
   if (estpaf){

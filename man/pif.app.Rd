@@ -2,9 +2,9 @@
 % Please edit documentation in R/pif.app.R
 \name{pif.app}
 \alias{pif.app}
-\title{PIF approximate estimation}
+\title{PIF approximate estimation with mean and variance}
 \usage{
-pif.app(meanx, varx, n, beta, varbeta, a = 0, b = 1, alpha = 0.05)
+pif.app(meanx, varx, n, beta, varbeta, a = 0, b = 0, alpha = 0.05)
 }
 \arguments{
 \item{meanx}{mean of the exposure data}
@@ -35,11 +35,8 @@ data. By default, the PAF is estimated if no counterfactual exposures values
 are specified.
 }
 \examples{
-# Generate exposure data
-set.seed(1)
-x <- rweibull(100, 1.2, 1.66)
 
-# Estimate PAF
+# Estimate PAF for a distribution with mean 1.41 and variance 1.18
 pif.app(meanx = 1.41, varx = 1.18, n = 100, beta = log(1.27),
 varbeta = 0.002)
 
