@@ -22,7 +22,7 @@
 #'
 #' @examples
 #'
-#' # Estimate PAF for a distribution with mean 1.41 and variance 1.18
+#' # Estimate PAF for an exposure distribution with mean 1.41 and variance 1.18
 #' pif.app(meanx = 1.41, varx = 1.18, n = 100, beta = log(1.27),
 #' varbeta = 0.002)
 #'

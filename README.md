@@ -24,7 +24,7 @@ devtools::install_github("colleenchan/pifpaf")
 This is a basic example which shows you how to estimate the PAF when
 individual-level exposure data is available to the user, where the
 relative risk function takes the form
-![\\text{RR}(x) = \\exp(x) = 1.27](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Ctext%7BRR%7D%28x%29%20%3D%20%5Cexp%28x%29%20%3D%201.27 "\text{RR}(x) = \exp(x) = 1.27")
+![\\text{RR}(\\beta x) = \\exp(\\beta x) = 1.27](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Ctext%7BRR%7D%28%5Cbeta%20x%29%20%3D%20%5Cexp%28%5Cbeta%20x%29%20%3D%201.27 "\text{RR}(\beta x) = \exp(\beta x) = 1.27")
 with variance 0.002.
 
 ``` r
@@ -69,7 +69,8 @@ pif.ind(x, beta = log(1.27), varbeta = 0.002, b = 0.5)
 Now suppose the user does not have access to the individual-level
 exposure data but does know its mean and variance. This is typical in
 publications, where only the mean and variance are reported. We can
-approximate the PAF using only the first two moments.
+approximate the PAF using only the first two moments. In this example,
+the mean of the exposure is 1.55 with variance 1.6.
 
 ``` r
 paf.app(meanx = 1.55, varx = 1.6, n = 1000, beta = log(1.27), varbeta = 0.002)
