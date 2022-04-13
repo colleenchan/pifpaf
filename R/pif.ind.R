@@ -1,8 +1,10 @@
 
 #' @title PIF estimation with individual-level data
-#' @description Estimates the potential impact fraction ((PIF) and population
-#' aggregate fraction (PAF) with individual-level exposure data. By default,
-#' the PAF is estimated if no counterfactual exposures values are specified.
+#' @description Estimates the potential impact fraction (PIF) and population
+#' aggregate fraction (PAF) with individual-level exposure data. Only linear
+#' counterfactual exposures of the form g(x) = a + b * x for the PIF are
+#' supported. By default, the PAF is estimated if no counterfactual exposures
+#'values are specified.
 #'
 #'
 #' @param x vector of exposure values

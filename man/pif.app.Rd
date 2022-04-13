@@ -31,12 +31,13 @@ list of PIF estimate and corresponding confidence interval
 \description{
 Estimates the potential impact fraction (PIF) and population
 aggregate fraction (PAF) using only the mean and variance of the exposure
-data. By default, the PAF is estimated if no counterfactual exposures values
-are specified.
+data. Only linear counterfactual exposures of the form g(x) = a + b * x for
+the PIF are supported. By default, the PAF is estimated if no counterfactual
+exposures values are specified.
 }
 \examples{
 
-# Estimate PAF for a distribution with mean 1.41 and variance 1.18
+# Estimate PAF for an exposure distribution with mean 1.41 and variance 1.18
 pif.app(meanx = 1.41, varx = 1.18, n = 100, beta = log(1.27),
 varbeta = 0.002)
 

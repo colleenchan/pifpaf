@@ -25,9 +25,11 @@ Must be between 0 and 1.}
 list of PIF estimate and corresponding confidence interval
 }
 \description{
-Estimates the potential impact fraction ((PIF) and population
-aggregate fraction (PAF) with individual-level exposure data. By default,
-the PAF is estimated if no counterfactual exposures values are specified.
+Estimates the potential impact fraction (PIF) and population
+aggregate fraction (PAF) with individual-level exposure data. Only linear
+counterfactual exposures of the form g(x) = a + b * x for the PIF are
+supported. By default, the PAF is estimated if no counterfactual exposures
+values are specified.
 }
 \examples{
 # Generate exposure data
