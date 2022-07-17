@@ -2,14 +2,14 @@
 % Please edit documentation in R/pif.ind.R
 \name{pif.ind}
 \alias{pif.ind}
-\title{PIF estimation with individual-level data}
+\title{PIF estimation with individual-level exposure data}
 \usage{
 pif.ind(x, beta, varbeta, a = 0, b = 0, alpha = 0.05)
 }
 \arguments{
 \item{x}{vector of exposure values}
 
-\item{beta}{beta coefficient in relative risk}
+\item{beta}{beta coefficient in exponential relative risk}
 
 \item{varbeta}{variance of beta coefficient in relative risk}
 
@@ -19,20 +19,22 @@ Must be negative.}
 \item{b}{the slope (single value) for the counterfactual exposure.
 Must be between 0 and 1.}
 
-\item{alpha}{100*(1-alpha)\% confidence interval of PIF estimate}
+\item{alpha}{100*(1-alpha)\% confidence interval of PIF estimate to return}
 }
 \value{
-list of PIF estimate and corresponding confidence interval
+A list of the following:
+\item{\code{pif}}{point estimate of the PIF }
+\item{\code{ci}}{100*(1-alpha)\% confidence interval of PIF estimate}
 }
 \description{
 Estimates the potential impact fraction (PIF) and population
-aggregate fraction (PAF) with individual-level exposure data. Only linear
+attributable fraction (PAF) with individual-level exposure data. Only linear
 counterfactual exposures of the form g(x) = a + b * x for the PIF are
-supported. By default, the PAF is estimated if no counterfactual exposures
+supported. By default, the PAF is estimated if no counterfactual exposure
 values are specified.
 }
 \examples{
-# Generate exposure data
+# Generate some exposure data
 set.seed(1)
 x <- rweibull(100, 1.2, 1.66)
 
@@ -42,6 +44,15 @@ pif.ind(x, log(1.27), 0.002)
 # Estimate PIF for a counterfactual exposure of a 1 unit decrease
 pif.ind(x, log(1.27), 0.002, a = -1)
 
-# Estimate PIF for a counterfactual exposure of 50\% decrease
-pif.ind(x, log(1.27), 0.002, b = 0.5)
+# Estimate PIF for a counterfactual exposure of 25\% decrease
+pif.ind(x, log(1.27), 0.002, b = 0.75)
+
+}
+\references{
+Colleen E. Chan, Rodrigo Zepeda-Tello, Dalia Camacho-Garcia-Formenti,
+Frederick Cudhea, Rafael Meza, Eliane Rodrigues, Donna Spiegelman, Tonatiuh
+Barrientos-Gutierrez, and Xin Zhou (2022).
+Nonparametric Estimation of the Potential Impact Fraction and Population
+Aggregate Fraction with Individual-Level and Aggregated Data.
+\url{https://arxiv.org/pdf/2207.03597.pdf}
 }

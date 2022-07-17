@@ -1,7 +1,7 @@
 
 #' @title PIF approximate estimation with mean and variance
 #' @description Estimates the potential impact fraction (PIF) and population
-#' aggregate fraction (PAF) using only the mean and variance of the exposure
+#' attributable fraction (PAF) using only the mean and variance of the exposure
 #' data. Only linear counterfactual exposures of the form g(x) = a + b * x for
 #' the PIF are supported. By default, the PAF is estimated if no counterfactual
 #' exposures values are specified.
@@ -9,7 +9,7 @@
 #' @param meanx mean of the exposure data
 #' @param varx variance of the exposure data
 #' @param n sample size of exposure
-#' @param beta beta coefficient in relative risk
+#' @param beta beta coefficient in exponential relative risk
 #' @param varbeta variance of beta coefficient in relative risk
 #' @param a the intercept (single value) for counterfactual exposure.
 #' Must be negative.
@@ -17,7 +17,10 @@
 #' Must be between 0 and 1.
 #' @param alpha 100*(1-alpha)\% confidence interval of PAF estimate
 #'
-#' @return list of PIF estimate and corresponding confidence interval
+#' @return A list of the following:
+#' \item{\code{pif}}{point estimate of the PIF }
+#' \item{\code{ci}}{100*(1-alpha)\% confidence interval of PIF estimate}
+#'
 #' @export
 #' @import stats
 #'
@@ -34,6 +37,15 @@
 #' # Estimate PIF for a counterfactual exposure of 50% decrease
 #' pif.app(meanx = 1.41, varx = 1.18, n = 100, beta = log(1.27),
 #' varbeta = 0.002, b = 0.5)
+#'
+#' @references
+#' Colleen E. Chan, Rodrigo Zepeda-Tello, Dalia Camacho-Garcia-Formenti,
+#' Frederick Cudhea, Rafael Meza, Eliane Rodrigues, Donna Spiegelman, Tonatiuh
+#' Barrientos-Gutierrez, and Xin Zhou (2022).
+#' Nonparametric Estimation of the Potential Impact Fraction and Population
+#' Aggregate Fraction with Individual-Level and Aggregated Data.
+#' \url{https://arxiv.org/pdf/2207.03597.pdf}
+#'
 pif.app <- function(meanx,
                     varx,
                     n,
@@ -79,7 +91,7 @@ pif.app <- function(meanx,
 
   if (!estpaf){
     if (gmeanx <= 0){
-      warning("The counterfactual exposure mean is non-postive.
+      warning("The counterfactual exposure mean is non-positive.
             The PAF will be estimated.")
       gmeanx <- 0
       estpaf <- 1
